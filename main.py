@@ -5,17 +5,20 @@ import random
 timer = None
 
 # functions
+
+
 def show_text():
     try:
         with open("dictionary.txt") as file:
             choosen_words = random.choices(file.read().splitlines(), k=30)
-            list_of_words = ' '.join([l.rstrip() for l in choosen_words])
+            list_of_words = ' '.join([word.rstrip() for word in choosen_words])
         all_words.config(state=NORMAL)
         all_words.delete("1.0", tkinter.END)
         all_words.insert(tkinter.END, list_of_words)
         all_words.grid(row=3, column=1, columnspan=3)
         all_words.config(state=DISABLED)
         answer_box.grid(row=4, column=1, columnspan=3)
+        answer_box.focus()
         score_label.grid_forget()
         try:
             answer_box.delete(0, tkinter.END)
@@ -38,6 +41,7 @@ def time_count(count):
         show_score()
     time_label.config(text=f"Time left: {count}s")
 
+
 def show_score():
     score = 0
     all_words.grid_forget()
@@ -55,8 +59,6 @@ def show_score():
     high_score_label.config(text=f"High score: {high_score()}")
 
 
-
-
 def check_answer(sv):
     try:
         oryginal = all_words.get("1.0", tkinter.END).replace(" ", "_")
@@ -71,13 +73,13 @@ def check_answer(sv):
     except NameError:
         pass
 
+
 def high_score():
     try:
         with open("highscore.txt", "r") as file:
-                return int(file.read())
+            return int(file.read())
     except ValueError:
         return 0
-
 
 
 # layout
@@ -90,7 +92,7 @@ time_label.config(text=f"Time left: 60s")
 time_label.grid(row=0, column=2)
 
 start_button = tkinter.Button()
-start_button.config(text="Start", width=20, command=lambda: [show_text(), time_count(10)])
+start_button.config(text="Start", width=20, command=lambda: [show_text(), time_count(60)])
 start_button.grid(row=2, column=2, columnspan=2)
 
 all_words = tkinter.Text()
